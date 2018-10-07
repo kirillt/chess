@@ -7,3 +7,4 @@ pub trait Property {
 pub mod color;
 pub mod quadrant;
 pub mod height;
+pub mod column;

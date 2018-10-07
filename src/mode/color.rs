@@ -9,9 +9,9 @@ impl Property for Color {
     fn parse(guess: char) -> Option<Box<Color>> {
         match guess {
             'w' => Some(box Color::White),
-            'б' => Some(box Color::White),
+            '4' => Some(box Color::White),
             'b' => Some(box Color::Black),
-            'ч' => Some(box Color::Black),
+            '6' => Some(box Color::Black),
 
             _ => None
         }
@@ -25,8 +25,8 @@ impl Property for Color {
         printw("==========================================================\n");
         printw("                    COLOR GUESSING MODE\n");
         printw("----------------------------------------------------------\n");
-        printw("Type [w] or [б] if you think specified position is [white]\n");
-        printw("and type [b] or [ч] if you think the position is [black].\n");
+        printw("Type [w] or [4] if you think specified position is [white]\n");
+        printw("and type [b] or [6] if you think the position is [black].\n");
         printw("==========================================================\n");
     }
 }

@@ -1,4 +1,4 @@
-#![feature(box_syntax, box_patterns)]
+#![feature(box_syntax, box_patterns, duration_as_u128)]
 extern crate ncurses;
 extern crate rand;
 
@@ -7,8 +7,10 @@ use mode::Property;
 use mode::color::Color;
 use mode::quadrant::Quadrant;
 use mode::height::Height;
+use mode::column::ColumnOddness;
 
 use ncurses::*;
+use std::time::{Duration, Instant};
 use std::env;
 
 fn main() {
@@ -20,13 +22,11 @@ fn main() {
 
     let mode = args.next().unwrap();
 
-    //let think_time = args
-    //    .next().unwrap()
-    //    .parse::<usize>().unwrap();
-
-    //printw(&format!("Your think time is {}ms.\n", think_time));
-
     match &mode[..] {
+        "oddness" => {
+            ColumnOddness::print_help();
+            cycle::<ColumnOddness>();
+        },
         "color" => {
             Color::print_help();
             cycle::<Color>();
@@ -47,6 +47,9 @@ fn main() {
 }
 
 fn cycle<Prop: Property + PartialEq>() {
+    let mut total_time = Duration::new(0, 0);
+    let mut total_answers = 0;
+    let mut correct_answers = 0;
     loop {
         let row = rand::random::<u8>() % 8;
         let column = rand::random::<u8>() % 8;
@@ -56,18 +59,31 @@ fn cycle<Prop: Property + PartialEq>() {
 
         let answer = Prop::calculate(column, row);
 
+        let time = Instant::now();
         let mut guess = None;
         while guess == None {
             guess = Prop::parse(std::char::from_u32(getch() as u32).unwrap());
         }
 
+        let time = time.elapsed();
+        total_answers += 1;
+        total_time += time;
+
+        let time  = format!("{:4}", time.as_millis());
+        let speed = format!("{:.*}", 2, total_answers as f32 / (60.0 * total_time.as_secs() as f32));
+        let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
+
         let guess = guess.unwrap();
 
-        if guess == answer {
-            printw("]: Yes!\n");
+        let correct = if guess == answer {
+            correct_answers += 1;
+            "Yes!"
         } else {
-            printw("]: No.\n");
-        }
+            "No. "
+        };
+
+        printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/min. Success ratio: {}%\n",
+            correct, time, speed, ratio));
 
         refresh();
     }
