@@ -3,8 +3,8 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
+use mode::Color;
 use mode::Property;
-use mode::color::Color;
 use mode::quadrant::Quadrant;
 use mode::height::Height;
 use mode::column::ColumnOddness;
@@ -22,22 +22,32 @@ fn main() {
 
     let mode = args.next().unwrap();
 
+    let submode = args.next();
+    let side = submode.clone()
+        .and_then(|input| Color::parse_str(input));
+    let period = if side.is_none() {
+        submode.and_then(|input| input.parse::<u8>().ok())
+            .unwrap_or(32)
+    } else {
+        std::u8::MAX
+    };
+
     match &mode[..] {
         "oddness" => {
             ColumnOddness::print_help();
-            cycle::<ColumnOddness>();
+            cycle::<ColumnOddness>(side, period);
         },
         "color" => {
             Color::print_help();
-            cycle::<Color>();
+            cycle::<Color>(side, period);
         },
         "quadrant" => {
             Quadrant::print_help();
-            cycle::<Quadrant>();
+            cycle::<Quadrant>(side, period);
         },
         "height" => {
             Height::print_help();
-            cycle::<Height>();
+            cycle::<Height>(side, period);
         },
         _ => {
             endwin();
@@ -46,18 +56,28 @@ fn main() {
     };
 }
 
-fn cycle<Prop: Property + PartialEq>() {
+fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
     let mut total_time = Duration::new(0, 0);
     let mut total_answers = 0;
     let mut correct_answers = 0;
+
+    let mut side = side.unwrap_or(Color::White);
+    let mut countdown = period;
+
     loop {
+        if countdown == 0 {
+            side = Color::invert(side);
+            countdown = period;
+        }
+
         let row = rand::random::<u8>() % 8;
         let column = rand::random::<u8>() % 8;
-        printw(&format!("{}{}? [",
+        printw(&format!("<{}> {}{}? [",
+            side.print(),
             ('a' as u8 + column) as char,
             row + 1));
 
-        let answer = Prop::calculate(column, row);
+        let answer = Prop::calculate(&side, column, row);
 
         let time = Instant::now();
         let mut guess = None;
@@ -70,7 +90,7 @@ fn cycle<Prop: Property + PartialEq>() {
         total_time += time;
 
         let time  = format!("{:4}", time.as_millis());
-        let speed = format!("{:.*}", 2, total_answers as f32 / (60.0 * total_time.as_secs() as f32));
+        let speed = format!("{:.*}", 2, total_answers as f32 / (total_time.as_secs() as f32));
         let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
 
         let guess = guess.unwrap();
@@ -82,9 +102,10 @@ fn cycle<Prop: Property + PartialEq>() {
             "No. "
         };
 
-        printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/min. Success ratio: {}%\n",
+        printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
             correct, time, speed, ratio));
 
+        countdown -= 1;
         refresh();
     }
 }

@@ -17,11 +17,17 @@ impl Property for Quadrant {
         }
     }
 
-    fn calculate(column: u8, row: u8) -> Box<Quadrant> {
-        box if row < 4 {
+    fn calculate(side: &Color, column: u8, row: u8) -> Box<Quadrant> {
+        let quadrant = if row < 4 {
             if column < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
         } else {
             if column < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
+        };
+
+        box if side == &Color::Black {
+            Quadrant::invert(quadrant)
+        } else {
+            quadrant
         }
     }
 
@@ -36,5 +42,16 @@ impl Property for Quadrant {
         printw("                  [7] means [left-top]\n");
         printw("                  [9] means [right-top]\n");
         printw("==========================================================\n");
+    }
+}
+
+impl Quadrant {
+    fn invert(self) -> Quadrant {
+        match self {
+            Quadrant::TopRight    => Quadrant::BottomLeft,
+            Quadrant::TopLeft     => Quadrant::BottomRight,
+            Quadrant::BottomRight => Quadrant::TopLeft,
+            Quadrant::BottomLeft  => Quadrant::TopRight,
+        }
     }
 }

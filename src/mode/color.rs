@@ -2,9 +2,6 @@ use mode::*;
 
 use ncurses::*;
 
-#[derive(PartialEq)]
-pub enum Color { White, Black }
-
 impl Property for Color {
     fn parse(guess: char) -> Option<Box<Color>> {
         match guess {
@@ -17,7 +14,7 @@ impl Property for Color {
         }
     }
 
-    fn calculate(column: u8, row: u8) -> Box<Color> {
+    fn calculate(_side: &Color, column: u8, row: u8) -> Box<Color> {
         box if row % 2 == column % 2 { Color::Black } else { Color::White }
     }
 
