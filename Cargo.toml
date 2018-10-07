@@ -1,0 +1,8 @@
+[package]
+name = "chess"
+version = "0.1.0"
+authors = ["Kirill Taran <kirill.t256@gmail.com>"]
+
+[dependencies]
+ncurses = "5.86.0"
+rand = "0.5.5"
