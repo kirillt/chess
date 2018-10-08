@@ -17,7 +17,9 @@ impl Property for Quadrant {
         }
     }
 
-    fn calculate(side: &Color, column: u8, row: u8) -> Box<Quadrant> {
+    fn calculate(side: &Option<Color>, column: u8, row: u8) -> Box<Quadrant> {
+        let side = side.as_ref().unwrap();
+
         let quadrant = if row < 4 {
             if column < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
         } else {

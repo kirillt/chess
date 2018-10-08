@@ -18,7 +18,7 @@ impl Property for Height {
             })
     }
 
-    fn calculate(_side: &Color, column: u8, row: u8) -> Box<Height> {
+    fn calculate(_side: &Option<Color>, column: u8, row: u8) -> Box<Height> {
         fn mirror(x: u8) -> u8 {
             let x = x as i8 - 4;
             let x = if x < 0 { x.abs() - 1 } else { x };

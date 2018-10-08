@@ -1,4 +1,5 @@
 use mode::*;
+use color::Color;
 
 use ncurses::*;
 
@@ -14,7 +15,7 @@ impl Property for Color {
         }
     }
 
-    fn calculate(_side: &Color, column: u8, row: u8) -> Box<Color> {
+    fn calculate(_side: &Option<Color>, column: u8, row: u8) -> Box<Color> {
         box if row % 2 == column % 2 { Color::Black } else { Color::White }
     }
 

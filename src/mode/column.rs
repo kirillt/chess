@@ -17,7 +17,7 @@ impl Property for ColumnOddness {
         }
     }
 
-    fn calculate(_side: &Color, column: u8, _row: u8) -> Box<ColumnOddness> {
+    fn calculate(_side: &Option<Color>, column: u8, _row: u8) -> Box<ColumnOddness> {
         match (column + 1) % 2 {
             0 => box ColumnOddness::Even,
             1 => box ColumnOddness::Odd,

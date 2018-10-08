@@ -3,11 +3,13 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::Color;
 use mode::Property;
 use mode::quadrant::Quadrant;
 use mode::height::Height;
 use mode::column::ColumnOddness;
+
+mod color;
+use color::Color;
 
 use ncurses::*;
 use std::time::{Duration, Instant};
@@ -16,9 +18,6 @@ use std::env;
 fn main() {
     let mut args = env::args();
     args.next();
-
-    initscr();
-    printw("Welcome to chess trainer!\n");
 
     let mode = args.next().unwrap();
 
@@ -32,22 +31,27 @@ fn main() {
         std::u8::MAX
     };
 
+    let side = side.unwrap_or(Color::White);
+
+    initscr();
+    printw("Welcome to chess trainer!\n");
+
     match &mode[..] {
         "oddness" => {
             ColumnOddness::print_help();
-            cycle::<ColumnOddness>(side, period);
+            cycle::<ColumnOddness>(None, period);
         },
         "color" => {
             Color::print_help();
-            cycle::<Color>(side, period);
+            cycle::<Color>(None, period);
         },
         "quadrant" => {
             Quadrant::print_help();
-            cycle::<Quadrant>(side, period);
+            cycle::<Quadrant>(Some(side), period);
         },
         "height" => {
             Height::print_help();
-            cycle::<Height>(side, period);
+            cycle::<Height>(None, period);
         },
         _ => {
             endwin();
@@ -57,23 +61,28 @@ fn main() {
 }
 
 fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
+
     let mut total_time = Duration::new(0, 0);
     let mut total_answers = 0;
     let mut correct_answers = 0;
 
-    let mut side = side.unwrap_or(Color::White);
     let mut countdown = period;
+    let mut side = side;
 
     loop {
-        if countdown == 0 {
-            side = Color::invert(side);
-            countdown = period;
+        if let Some(old_side) = side.clone() {
+            printw(&format!("<{}> ", old_side.print()));
+            countdown -= 1;
+
+            if countdown == 0 {
+                side = Some(Color::invert(old_side));
+                countdown = period;
+            }
         }
 
         let row = rand::random::<u8>() % 8;
         let column = rand::random::<u8>() % 8;
-        printw(&format!("<{}> {}{}? [",
-            side.print(),
+        printw(&format!("{}{}? [",
             ('a' as u8 + column) as char,
             row + 1));
 
@@ -89,10 +98,6 @@ fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
         total_answers += 1;
         total_time += time;
 
-        let time  = format!("{:4}", time.as_millis());
-        let speed = format!("{:.*}", 2, total_answers as f32 / (total_time.as_secs() as f32));
-        let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
-
         let guess = guess.unwrap();
 
         let correct = if guess == answer {
@@ -102,10 +107,13 @@ fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
             "No. "
         };
 
+        let time  = format!("{:4}", time.as_millis());
+        let speed = format!("{:.*}", 2, total_answers as f32 / (total_time.as_secs() as f32));
+        let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
+
         printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
             correct, time, speed, ratio));
 
-        countdown -= 1;
         refresh();
     }
 }
