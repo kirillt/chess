@@ -1,6 +1,8 @@
 use mode::state::Empty;
 use mode::property::Property;
 
+use location::Location;
+
 use ncurses::*;
 
 #[derive(PartialEq)]
@@ -18,8 +20,8 @@ impl Property<Empty> for ColumnOddness {
         }
     }
 
-    fn calculate(_state: &Empty, column: u8, _row: u8) -> Box<ColumnOddness> {
-        match (column + 1) % 2 {
+    fn calculate(_state: &Empty, location: &Location) -> Box<ColumnOddness> {
+        match (location.column + 1) % 2 {
             0 => box ColumnOddness::Even,
             1 => box ColumnOddness::Odd,
             _ => panic!()

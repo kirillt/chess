@@ -1,13 +1,22 @@
 #![feature(box_syntax, box_patterns, duration_as_u128)]
+#[macro_use(lazy_static)]
+extern crate lazy_static;
 extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::state::{ModeState, Empty, SideContainer};
-use mode::property::{Property, ColumnOddness, Height, Quadrant};
+use mode::state::{ModeState,
+    Empty, SideContainer,
+    PreviousLocation};
+
+use mode::property::{Property,
+    ColumnOddness, Height, Quadrant,
+    KnightDistance};
 
 mod color;
 use color::Color;
+
+mod location;
 
 use ncurses::*;
 use std::time::{Duration, Instant};
@@ -39,6 +48,10 @@ fn main() {
             Height::print_help();
             cycle::<Empty, Height>(Empty);
         },
+        "knight" => {
+            KnightDistance::print_help();
+            cycle::<PreviousLocation, KnightDistance>(PreviousLocation::parse(args));
+        },
         _ => {
             endwin();
             panic!("Unknown mode.")
@@ -55,13 +68,10 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
     loop {
         printw(&format!("{}", state));
 
-        let row = rand::random::<u8>() % 8;
-        let column = rand::random::<u8>() % 8;
-        printw(&format!("{}{}? [",
-            ('a' as u8 + column) as char,
-            row + 1));
+        let location = state.next();
+        printw(&format!("{}? [", location));
 
-        let answer = Prop::calculate(&state, column, row);
+        let answer = Prop::calculate(&state, &location);
 
         let time = Instant::now();
         let mut guess = None;
@@ -89,7 +99,7 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
         printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
             correct, time, speed, ratio));
 
-        state.tick();
+        state.tick(&location);
 
         refresh();
     }

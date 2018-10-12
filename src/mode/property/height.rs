@@ -1,8 +1,10 @@
 use mode::state::Empty;
 use mode::property::Property;
 
-use ncurses::*;
+use location::Location;
+
 use std::cmp::min;
+use ncurses::*;
 
 #[derive(PartialEq)]
 pub struct Height {
@@ -19,7 +21,7 @@ impl Property<Empty> for Height {
             })
     }
 
-    fn calculate(_state: &Empty, column: u8, row: u8) -> Box<Height> {
+    fn calculate(_state: &Empty, location: &Location) -> Box<Height> {
         fn mirror(x: u8) -> u8 {
             let x = x as i8 - 4;
             let x = if x < 0 { x.abs() - 1 } else { x };
@@ -27,7 +29,7 @@ impl Property<Empty> for Height {
         };
 
         box Height {
-            value: min(3 - mirror(column), 3 - mirror(row))
+            value: min(3 - mirror(location.column), 3 - mirror(location.row))
         }
     }
 

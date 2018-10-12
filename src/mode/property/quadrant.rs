@@ -1,13 +1,14 @@
 use mode::property::Property;
 use mode::state::side::SideContainer;
-use color::*;
+
+use color::Color;
+use location::Location;
 
 use ncurses::*;
 
 #[derive(PartialEq)]
 pub enum Quadrant { TopRight, BottomRight, BottomLeft, TopLeft }
 
-//todo option
 impl Property<SideContainer> for Quadrant {
     fn parse(guess: char) -> Option<Box<Quadrant>> {
         match guess {
@@ -20,11 +21,11 @@ impl Property<SideContainer> for Quadrant {
         }
     }
 
-    fn calculate(state: &SideContainer, column: u8, row: u8) -> Box<Quadrant> {
-        let quadrant = if row < 4 {
-            if column < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
+    fn calculate(state: &SideContainer, location: &Location) -> Box<Quadrant> {
+        let quadrant = if location.row < 4 {
+            if location.column < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
         } else {
-            if column < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
+            if location.column < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
         };
 
         box if state.side == Color::Black {

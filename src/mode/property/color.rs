@@ -1,6 +1,8 @@
 use mode::state::Empty;
 use mode::property::Property;
+
 use color::Color;
+use location::Location;
 
 use ncurses::*;
 
@@ -16,8 +18,8 @@ impl Property<Empty> for Color {
         }
     }
 
-    fn calculate(_state: &Empty, column: u8, row: u8) -> Box<Color> {
-        box if row % 2 == column % 2 { Color::Black } else { Color::White }
+    fn calculate(_state: &Empty, location: &Location) -> Box<Color> {
+        box if location.row % 2 == location.column % 2 { Color::Black } else { Color::White }
     }
 
     fn print_help() {

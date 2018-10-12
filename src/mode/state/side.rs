@@ -1,6 +1,8 @@
 use mode::state::ModeState;
 use color::Color;
 
+use location::Location;
+
 use std::fmt::{Display, Formatter, Result};
 use std::env::Args;
 
@@ -18,9 +20,7 @@ impl SideContainer {
             countdown: period.unwrap_or(0)
         }
     }
-}
 
-impl SideContainer {
     pub fn parse(mut input: Args) -> Self {
         if let Some(arg1) = input.next() {
             match Color::parse_str(&arg1[..]) {
@@ -47,7 +47,7 @@ impl Display for SideContainer {
 }
 
 impl ModeState for SideContainer {
-    fn tick(&mut self) {
+    fn tick(&mut self, _location: &Location) {
         match self.period {
             Some(period) => {
                 self.countdown -= 1;
