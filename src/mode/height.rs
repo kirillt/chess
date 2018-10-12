@@ -8,7 +8,7 @@ pub struct Height {
     value: u8
 }
 
-impl Property for Height {
+impl Property<Empty> for Height {
     fn parse(guess: char) -> Option<Box<Height>> {
         format!("{}", guess).parse::<u8>().ok()
             .and_then(|x| if x < 4 {
@@ -18,7 +18,7 @@ impl Property for Height {
             })
     }
 
-    fn calculate(_side: &Option<Color>, column: u8, row: u8) -> Box<Height> {
+    fn calculate(_state: &Empty, column: u8, row: u8) -> Box<Height> {
         fn mirror(x: u8) -> u8 {
             let x = x as i8 - 4;
             let x = if x < 0 { x.abs() - 1 } else { x };

@@ -3,7 +3,7 @@ use color::Color;
 
 use ncurses::*;
 
-impl Property for Color {
+impl Property<Empty> for Color {
     fn parse(guess: char) -> Option<Box<Color>> {
         match guess {
             'w' => Some(box Color::White),
@@ -15,7 +15,7 @@ impl Property for Color {
         }
     }
 
-    fn calculate(_side: &Option<Color>, column: u8, row: u8) -> Box<Color> {
+    fn calculate(_state: &Empty, column: u8, row: u8) -> Box<Color> {
         box if row % 2 == column % 2 { Color::Black } else { Color::White }
     }
 

@@ -3,10 +3,12 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::Property;
-use mode::quadrant::Quadrant;
 use mode::height::Height;
+use mode::quadrant::Quadrant;
+use mode::{ModeState, Property, Empty};
 use mode::column::ColumnOddness;
+
+use mode::side::SideContainer;
 
 mod color;
 use color::Color;
@@ -21,37 +23,25 @@ fn main() {
 
     let mode = args.next().unwrap();
 
-    let submode = args.next();
-    let side = submode.clone()
-        .and_then(|input| Color::parse_str(input));
-    let period = if side.is_none() {
-        submode.and_then(|input| input.parse::<u8>().ok())
-            .unwrap_or(32)
-    } else {
-        std::u8::MAX
-    };
-
-    let side = side.unwrap_or(Color::White);
-
     initscr();
     printw("Welcome to chess trainer!\n");
 
     match &mode[..] {
         "oddness" => {
             ColumnOddness::print_help();
-            cycle::<ColumnOddness>(None, period);
+            cycle::<Empty, ColumnOddness>(Empty);
         },
         "color" => {
             Color::print_help();
-            cycle::<Color>(None, period);
+            cycle::<Empty, Color>(Empty);
         },
         "quadrant" => {
             Quadrant::print_help();
-            cycle::<Quadrant>(Some(side), period);
+            cycle::<SideContainer, Quadrant>(SideContainer::parse(args));
         },
         "height" => {
             Height::print_help();
-            cycle::<Height>(None, period);
+            cycle::<Empty, Height>(Empty);
         },
         _ => {
             endwin();
@@ -60,25 +50,14 @@ fn main() {
     };
 }
 
-fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
+fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) {
 
     let mut total_time = Duration::new(0, 0);
     let mut total_answers = 0;
     let mut correct_answers = 0;
 
-    let mut countdown = period;
-    let mut side = side;
-
     loop {
-        if let Some(old_side) = side.clone() {
-            printw(&format!("<{}> ", old_side.print()));
-            countdown -= 1;
-
-            if countdown == 0 {
-                side = Some(Color::invert(old_side));
-                countdown = period;
-            }
-        }
+        printw(&format!("{}", state));
 
         let row = rand::random::<u8>() % 8;
         let column = rand::random::<u8>() % 8;
@@ -86,7 +65,7 @@ fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
             ('a' as u8 + column) as char,
             row + 1));
 
-        let answer = Prop::calculate(&side, column, row);
+        let answer = Prop::calculate(&state, column, row);
 
         let time = Instant::now();
         let mut guess = None;
@@ -113,6 +92,8 @@ fn cycle<Prop: Property + PartialEq>(side: Option<Color>, period: u8) {
 
         printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
             correct, time, speed, ratio));
+
+        state.tick();
 
         refresh();
     }
