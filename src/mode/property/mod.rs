@@ -6,6 +6,10 @@ pub trait Property<State: ModeState> {
 
     fn calculate(state: &State, location: &Location) -> Box<Self>;
 
+    fn details(&self) -> String {
+        "".to_string()
+    }
+
     fn print_help();
 }
 

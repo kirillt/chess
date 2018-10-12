@@ -85,11 +85,11 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
 
         let guess = guess.unwrap();
 
-        let correct = if guess == answer {
+        let result = if guess == answer {
             correct_answers += 1;
-            "Yes!"
+            format!("Yes! {}", answer.details())
         } else {
-            "No. "
+            "No. ".to_string()
         };
 
         let time  = format!("{:4}", time.as_millis());
@@ -97,7 +97,7 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
         let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
 
         printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
-            correct, time, speed, ratio));
+            result, time, speed, ratio));
 
         state.tick(&location);
 
