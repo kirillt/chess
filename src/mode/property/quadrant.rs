@@ -1,5 +1,5 @@
-use mode::*;
-use mode::side::SideContainer;
+use mode::property::Property;
+use mode::state::side::SideContainer;
 use color::*;
 
 use ncurses::*;

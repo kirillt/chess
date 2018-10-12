@@ -1,4 +1,4 @@
-use mode::*;
+use mode::state::ModeState;
 use color::Color;
 
 use std::fmt::{Display, Formatter, Result};

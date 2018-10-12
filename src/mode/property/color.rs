@@ -1,4 +1,5 @@
-use mode::*;
+use mode::state::Empty;
+use mode::property::Property;
 use color::Color;
 
 use ncurses::*;

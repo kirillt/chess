@@ -3,12 +3,8 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::height::Height;
-use mode::quadrant::Quadrant;
-use mode::{ModeState, Property, Empty};
-use mode::column::ColumnOddness;
-
-use mode::side::SideContainer;
+use mode::state::{ModeState, Empty, SideContainer};
+use mode::property::{Property, ColumnOddness, Height, Quadrant};
 
 mod color;
 use color::Color;
