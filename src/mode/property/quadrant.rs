@@ -22,10 +22,10 @@ impl Property<SideContainer> for Quadrant {
     }
 
     fn calculate(state: &SideContainer, location: &Location) -> Box<Quadrant> {
-        let quadrant = if location.row < 4 {
-            if location.column < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
+        let quadrant = if location.rank < 4 {
+            if location.file < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
         } else {
-            if location.column < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
+            if location.file < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
         };
 
         box if state.side == Color::Black {

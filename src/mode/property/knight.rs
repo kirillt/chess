@@ -20,17 +20,17 @@ impl PartialEq for KnightDistance {
 
 impl KnightDistance {
     pub fn distance(from: &Location, to: &Location) -> u8 {
-        DISTANCES[from.column as usize]
-                 [from.row    as usize]
-                 [to.column as usize]
-                 [to.row    as usize]
+        DISTANCES[from.file as usize]
+                 [from.rank as usize]
+                 [to.file as usize]
+                 [to.rank as usize]
     }
 
     pub fn penultimate(from: &Location, to: &Location) -> (usize, usize) {
-        PREDECESSORS[from.column as usize]
-                    [from.row    as usize]
-                    [to.column as usize]
-                    [to.row    as usize]
+        PREDECESSORS[from.file as usize]
+                    [from.rank as usize]
+                    [to.file as usize]
+                    [to.rank as usize]
     }
 }
 
@@ -43,7 +43,7 @@ impl Property<PreviousLocation> for KnightDistance {
     fn calculate(previous: &PreviousLocation, location: &Location) -> Box<KnightDistance> {
         let (i,j) = KnightDistance::penultimate(&previous.location, location);
         box KnightDistance {
-            penultimate: Some(Location { column: i as u8, row: j as u8 }),
+            penultimate: Some(Location { file: i as u8, rank: j as u8 }),
             value: KnightDistance::distance(&previous.location, location)
         }
     }

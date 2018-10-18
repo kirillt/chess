@@ -19,7 +19,7 @@ impl Property<Empty> for Color {
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<Color> {
-        box if location.row % 2 == location.column % 2 { Color::Black } else { Color::White }
+        box if location.rank % 2 == location.file % 2 { Color::Black } else { Color::White }
     }
 
     fn print_help() {

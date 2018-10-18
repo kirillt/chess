@@ -21,7 +21,7 @@ impl Property<Empty> for ColumnOddness {
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<ColumnOddness> {
-        match (location.column + 1) % 2 {
+        match (location.file + 1) % 2 {
             0 => box ColumnOddness::Even,
             1 => box ColumnOddness::Odd,
             _ => panic!()

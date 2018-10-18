@@ -29,7 +29,7 @@ impl Property<Empty> for Height {
         };
 
         box Height {
-            value: min(3 - mirror(location.column), 3 - mirror(location.row))
+            value: min(3 - mirror(location.file), 3 - mirror(location.rank))
         }
     }
 
