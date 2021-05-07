@@ -49,16 +49,16 @@ impl Property<SideContainer> for Quadrant {
     }
 
     fn print_help() {
-        printw("==========================================================\n");
-        printw("                   QUADRANT GUESSING MODE\n");
-        printw("----------------------------------------------------------\n");
-        printw("              Use NUM-section on your keyboard:\n");
-        printw("              ---------------------------------\n");
-        printw("                  [1] means [left-bottom]\n");
-        printw("                  [3] means [right-bottom]\n");
-        printw("                  [7] means [left-top]\n");
-        printw("                  [9] means [right-top]\n");
-        printw("==========================================================\n");
+        addstr("==========================================================\n");
+        addstr("                   QUADRANT GUESSING MODE\n");
+        addstr("----------------------------------------------------------\n");
+        addstr("              Use NUM-section on your keyboard:\n");
+        addstr("              ---------------------------------\n");
+        addstr("                  [1] means [left-bottom]\n");
+        addstr("                  [3] means [right-bottom]\n");
+        addstr("                  [7] means [left-top]\n");
+        addstr("                  [9] means [right-top]\n");
+        addstr("==========================================================\n");
     }
 }
 

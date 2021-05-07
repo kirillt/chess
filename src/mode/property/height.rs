@@ -35,11 +35,11 @@ impl Property<Empty> for Height {
     }
 
     fn print_help() {
-        printw("==========================================================\n");
-        printw("                    HEIGHT GUESSING MODE\n");
-        printw("----------------------------------------------------------\n");
-        printw("Type [0], [1], [2] or [3] if you think specified position\n");
-        printw("belongs to outermost circle, outer or inner one or center.\n");
-        printw("==========================================================\n");
+        addstr("==========================================================\n");
+        addstr("                    HEIGHT GUESSING MODE\n");
+        addstr("----------------------------------------------------------\n");
+        addstr("Type [0], [1], [2] or [3] if you think specified position\n");
+        addstr("belongs to outermost circle, outer or inner one or center.\n");
+        addstr("==========================================================\n");
     }
 }

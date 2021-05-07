@@ -54,12 +54,12 @@ impl Property<PreviousLocation> for KnightDistance {
     }
 
     fn print_help() {
-        printw("=========================================================\n");
-        printw("              KNIGHT DISTANCE GUESSING MODE\n");
-        printw("---------------------------------------------------------\n");
-        printw("Type [1], [2], [3] or [4] if you think this number equals\n");
-        printw("  to amount of knight's moves from 1st to 2nd position.\n");
-        printw("=========================================================\n");
+        addstr("=========================================================\n");
+        addstr("              KNIGHT DISTANCE GUESSING MODE\n");
+        addstr("---------------------------------------------------------\n");
+        addstr("Type [1], [2], [3] or [4] if you think this number equals\n");
+        addstr("  to amount of knight's moves from 1st to 2nd position.\n");
+        addstr("=========================================================\n");
     }
 }
 

@@ -27,11 +27,11 @@ impl Property<Empty> for Color {
     }
 
     fn print_help() {
-        printw("==========================================================\n");
-        printw("                    COLOR GUESSING MODE\n");
-        printw("----------------------------------------------------------\n");
-        printw("Type [w] or [4] if you think specified position is [white]\n");
-        printw("and type [b] or [6] if you think the position is [black].\n");
-        printw("==========================================================\n");
+        addstr("==========================================================\n");
+        addstr("                    COLOR GUESSING MODE\n");
+        addstr("----------------------------------------------------------\n");
+        addstr("Type [w] or [4] if you think specified position is [white]\n");
+        addstr("and type [b] or [6] if you think the position is [black].\n");
+        addstr("==========================================================\n");
     }
 }

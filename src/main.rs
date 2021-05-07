@@ -24,7 +24,7 @@ fn main() {
     let mode = args.next().unwrap();
 
     initscr();
-    printw("Welcome to chess trainer!\n");
+    addstr("Welcome to chess trainer!\n");
 
     match &mode[..] {
         "oddness" => {
@@ -60,10 +60,10 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
     let mut correct_answers = 0;
 
     loop {
-        printw(&format!("{}", state));
+        addstr(&format!("{}", state));
 
         let location = state.next();
-        printw(&format!("{}? [", location));
+        addstr(&format!("{}? [", location));
 
         let answer = Prop::calculate(&state, &location);
 
@@ -94,7 +94,7 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
         );
         let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
 
-        printw(&format!(
+        addstr(&format!(
             "]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
             result, time, speed, ratio
         ));

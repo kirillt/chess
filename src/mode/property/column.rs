@@ -32,11 +32,11 @@ impl Property<Empty> for ColumnOddness {
     }
 
     fn print_help() {
-        printw("===================================================================\n");
-        printw("                   COLUMN ODDNESS GUESSING MODE\n");
-        printw("-------------------------------------------------------------------\n");
-        printw("Type [e] or [2] if you think column of specified position is [even]\n");
-        printw("and type [o] or [1] if you think the column is [odd].\n");
-        printw("===================================================================\n");
+        addstr("===================================================================\n");
+        addstr("                   COLUMN ODDNESS GUESSING MODE\n");
+        addstr("-------------------------------------------------------------------\n");
+        addstr("Type [e] or [2] if you think column of specified position is [even]\n");
+        addstr("and type [o] or [1] if you think the column is [odd].\n");
+        addstr("===================================================================\n");
     }
 }
