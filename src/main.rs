@@ -1,8 +1,3 @@
-#[macro_use(lazy_static)]
-extern crate lazy_static;
-extern crate ncurses;
-extern crate rand;
-
 mod mode;
 use crate::mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
 

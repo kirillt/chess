@@ -1,3 +1,5 @@
+use lazy_static::lazy_static;
+
 use crate::mode::property::Property;
 use crate::mode::state::PreviousLocation;
 
