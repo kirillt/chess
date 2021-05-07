@@ -1,10 +1,9 @@
-use crate::color::Color;
-use crate::mode::state::ModeState;
-
-use crate::location::Location;
-
 use std::env::Args;
 use std::fmt::{Display, Formatter, Result};
+
+use crate::color::Color;
+use crate::location::Location;
+use crate::mode::state::ModeState;
 
 pub struct SideContainer {
     pub side: Color,

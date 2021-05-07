@@ -1,10 +1,9 @@
-use crate::mode::property::Property;
-use crate::mode::state::side::SideContainer;
+use ncurses::*;
 
 use crate::color::Color;
 use crate::location::Location;
-
-use ncurses::*;
+use crate::mode::property::Property;
+use crate::mode::state::side::SideContainer;
 
 #[derive(PartialEq)]
 pub enum Quadrant {

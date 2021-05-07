@@ -1,5 +1,6 @@
-use rand::random;
 use std::fmt::{Display, Formatter, Result};
+
+use rand::random;
 
 #[derive(Clone, PartialEq)]
 pub struct Location {

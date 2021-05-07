@@ -1,10 +1,9 @@
-use crate::mode::property::Property;
-use crate::mode::state::Empty;
+use ncurses::*;
 
 use crate::color::Color;
 use crate::location::Location;
-
-use ncurses::*;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
 
 impl Property<Empty> for Color {
     fn parse(guess: char) -> Option<Box<Color>> {

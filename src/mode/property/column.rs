@@ -1,9 +1,8 @@
-use crate::mode::property::Property;
-use crate::mode::state::Empty;
+use ncurses::*;
 
 use crate::location::Location;
-
-use ncurses::*;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
 
 #[derive(PartialEq)]
 pub enum ColumnOddness {

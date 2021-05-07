@@ -1,10 +1,10 @@
-use crate::mode::property::Property;
-use crate::mode::state::Empty;
-
-use crate::location::Location;
+use std::cmp::min;
 
 use ncurses::*;
-use std::cmp::min;
+
+use crate::location::Location;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
 
 #[derive(PartialEq)]
 pub struct Height {

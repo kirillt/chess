@@ -1,13 +1,12 @@
 use lazy_static::lazy_static;
 
-use crate::mode::property::Property;
-use crate::mode::state::PreviousLocation;
-
-use crate::location::Location;
+use std::u8;
 
 use ncurses::*;
 
-use std::u8;
+use crate::location::Location;
+use crate::mode::property::Property;
+use crate::mode::state::PreviousLocation;
 
 pub struct KnightDistance {
     penultimate: Option<Location>,

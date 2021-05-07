@@ -1,16 +1,15 @@
-mod mode;
-use crate::mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
-
-use crate::mode::property::{ColumnOddness, Height, KnightDistance, Property, Quadrant};
-
 mod color;
-use crate::color::Color;
-
 mod location;
+mod mode;
 
-use ncurses::*;
 use std::env;
 use std::time::{Duration, Instant};
+
+use ncurses::*;
+
+use crate::color::Color;
+use crate::mode::property::{ColumnOddness, Height, KnightDistance, Property, Quadrant};
+use crate::mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
 
 fn main() {
     let mut args = env::args();

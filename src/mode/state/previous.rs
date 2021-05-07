@@ -1,11 +1,10 @@
-use crate::mode::property::KnightDistance;
-use crate::mode::state::ModeState;
-
-use crate::location::Location;
-
 use std::env::Args;
 use std::fmt::{Display, Formatter, Result};
 use std::u8;
+
+use crate::location::Location;
+use crate::mode::property::KnightDistance;
+use crate::mode::state::ModeState;
 
 pub struct PreviousLocation {
     pub location: Location,
