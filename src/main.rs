@@ -4,13 +4,9 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::state::{ModeState,
-    Empty, SideContainer,
-    PreviousLocation};
+use mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
 
-use mode::property::{Property,
-    ColumnOddness, Height, Quadrant,
-    KnightDistance};
+use mode::property::{ColumnOddness, Height, KnightDistance, Property, Quadrant};
 
 mod color;
 use color::Color;
@@ -18,8 +14,8 @@ use color::Color;
 mod location;
 
 use ncurses::*;
-use std::time::{Duration, Instant};
 use std::env;
+use std::time::{Duration, Instant};
 
 fn main() {
     let mut args = env::args();
@@ -34,23 +30,23 @@ fn main() {
         "oddness" => {
             ColumnOddness::print_help();
             cycle::<Empty, ColumnOddness>(Empty);
-        },
+        }
         "color" => {
             Color::print_help();
             cycle::<Empty, Color>(Empty);
-        },
+        }
         "quadrant" => {
             Quadrant::print_help();
             cycle::<SideContainer, Quadrant>(SideContainer::parse(args));
-        },
+        }
         "height" => {
             Height::print_help();
             cycle::<Empty, Height>(Empty);
-        },
+        }
         "knight" => {
             KnightDistance::print_help();
             cycle::<PreviousLocation, KnightDistance>(PreviousLocation::parse(args));
-        },
+        }
         _ => {
             endwin();
             panic!("Unknown mode.")
@@ -59,7 +55,6 @@ fn main() {
 }
 
 fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) {
-
     let mut total_time = Duration::new(0, 0);
     let mut total_answers = 0;
     let mut correct_answers = 0;
@@ -91,12 +86,18 @@ fn cycle<State: ModeState, Prop: Property<State> + PartialEq>(mut state: State) 
             "No. ".to_string()
         };
 
-        let time  = format!("{:4}", time.as_millis());
-        let speed = format!("{:.*}", 2, total_answers as f32 / (total_time.as_secs() as f32));
+        let time = format!("{:4}", time.as_millis());
+        let speed = format!(
+            "{:.*}",
+            2,
+            total_answers as f32 / (total_time.as_secs() as f32)
+        );
         let ratio = format!("{:.*}", 2, correct_answers as f32 / total_answers as f32);
 
-        printw(&format!("]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
-            result, time, speed, ratio));
+        printw(&format!(
+            "]: {} Time of thinking: {}ms. Speed: {} answers/sec. Success ratio: {}\n",
+            result, time, speed, ratio
+        ));
 
         state.tick(&location);
 

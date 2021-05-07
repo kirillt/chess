@@ -7,7 +7,12 @@ use location::Location;
 use ncurses::*;
 
 #[derive(PartialEq)]
-pub enum Quadrant { TopRight, BottomRight, BottomLeft, TopLeft }
+pub enum Quadrant {
+    TopRight,
+    BottomRight,
+    BottomLeft,
+    TopLeft,
+}
 
 impl Property<SideContainer> for Quadrant {
     fn parse(guess: char) -> Option<Box<Quadrant>> {
@@ -17,15 +22,23 @@ impl Property<SideContainer> for Quadrant {
             '7' => Some(Box::new(Quadrant::TopLeft)),
             '9' => Some(Box::new(Quadrant::TopRight)),
 
-            _ => None
+            _ => None,
         }
     }
 
     fn calculate(state: &SideContainer, location: &Location) -> Box<Quadrant> {
         let quadrant = if location.rank < 4 {
-            if location.file < 4 { Quadrant::BottomLeft } else { Quadrant::BottomRight }
+            if location.file < 4 {
+                Quadrant::BottomLeft
+            } else {
+                Quadrant::BottomRight
+            }
         } else {
-            if location.file < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
+            if location.file < 4 {
+                Quadrant::TopLeft
+            } else {
+                Quadrant::TopRight
+            }
         };
 
         Box::new(if state.side == Color::Black {
@@ -52,10 +65,10 @@ impl Property<SideContainer> for Quadrant {
 impl Quadrant {
     fn invert(self) -> Quadrant {
         match self {
-            Quadrant::TopRight    => Quadrant::BottomLeft,
-            Quadrant::TopLeft     => Quadrant::BottomRight,
+            Quadrant::TopRight => Quadrant::BottomLeft,
+            Quadrant::TopLeft => Quadrant::BottomRight,
             Quadrant::BottomRight => Quadrant::TopLeft,
-            Quadrant::BottomLeft  => Quadrant::TopRight,
+            Quadrant::BottomLeft => Quadrant::TopRight,
         }
     }
 }

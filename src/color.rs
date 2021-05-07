@@ -1,11 +1,14 @@
 #[derive(Clone, Debug, PartialEq)]
-pub enum Color { White, Black }
+pub enum Color {
+    White,
+    Black,
+}
 
 impl Color {
     pub fn invert(&self) -> Self {
         match self {
             &Color::White => Color::Black,
-            &Color::Black => Color::White
+            &Color::Black => Color::White,
         }
     }
 
@@ -16,16 +19,14 @@ impl Color {
             "w" => Some(Color::White),
             "b" => Some(Color::Black),
 
-            _ => None
+            _ => None,
         }
     }
 
     pub fn print(&self) -> &str {
         match &self {
             Color::White => "white",
-            Color::Black => "black"
+            Color::Black => "black",
         }
     }
 }
-
-

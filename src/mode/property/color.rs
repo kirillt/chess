@@ -1,5 +1,5 @@
-use mode::state::Empty;
 use mode::property::Property;
+use mode::state::Empty;
 
 use color::Color;
 use location::Location;
@@ -14,12 +14,16 @@ impl Property<Empty> for Color {
             'b' => Some(Box::new(Color::Black)),
             '6' => Some(Box::new(Color::Black)),
 
-            _ => None
+            _ => None,
         }
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<Color> {
-        Box::new(if location.rank % 2 == location.file % 2 { Color::Black } else { Color::White })
+        Box::new(if location.rank % 2 == location.file % 2 {
+            Color::Black
+        } else {
+            Color::White
+        })
     }
 
     fn print_help() {

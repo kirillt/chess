@@ -1,12 +1,15 @@
-use mode::state::Empty;
 use mode::property::Property;
+use mode::state::Empty;
 
 use location::Location;
 
 use ncurses::*;
 
 #[derive(PartialEq)]
-pub enum ColumnOddness { Odd, Even }
+pub enum ColumnOddness {
+    Odd,
+    Even,
+}
 
 impl Property<Empty> for ColumnOddness {
     fn parse(guess: char) -> Option<Box<ColumnOddness>> {
@@ -16,7 +19,7 @@ impl Property<Empty> for ColumnOddness {
             'e' => Some(Box::new(ColumnOddness::Even)),
             '2' => Some(Box::new(ColumnOddness::Even)),
 
-            _ => None
+            _ => None,
         }
     }
 
@@ -24,7 +27,7 @@ impl Property<Empty> for ColumnOddness {
         match (location.file + 1) % 2 {
             0 => Box::new(ColumnOddness::Even),
             1 => Box::new(ColumnOddness::Odd),
-            _ => panic!()
+            _ => panic!(),
         }
     }
 

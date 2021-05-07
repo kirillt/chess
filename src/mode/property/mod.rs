@@ -14,12 +14,12 @@ pub trait Property<State: ModeState> {
 }
 
 pub mod color;
-pub mod quadrant;
-pub mod height;
 pub mod column;
+pub mod height;
 pub mod knight;
+pub mod quadrant;
 
-pub use self::knight::KnightDistance;
 pub use self::column::ColumnOddness;
-pub use self::quadrant::Quadrant;
 pub use self::height::Height;
+pub use self::knight::KnightDistance;
+pub use self::quadrant::Quadrant;

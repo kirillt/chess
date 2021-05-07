@@ -1,37 +1,38 @@
-use mode::state::ModeState;
 use mode::property::KnightDistance;
+use mode::state::ModeState;
 
 use location::Location;
 
-use std::fmt::{Display, Formatter, Result};
 use std::env::Args;
+use std::fmt::{Display, Formatter, Result};
 use std::u8;
 
 pub struct PreviousLocation {
     pub location: Location,
     min_dist: u8,
-    max_dist: u8
+    max_dist: u8,
 }
 
 impl PreviousLocation {
     pub fn new(min_dist: u8, max_dist: u8) -> Self {
         PreviousLocation {
             location: Location::random(),
-            min_dist, max_dist
+            min_dist,
+            max_dist,
         }
     }
 
     pub fn parse(mut input: Args) -> Self {
-        input.next()
+        input
+            .next()
             .and_then(|s| s.parse::<u8>().ok())
             .filter(|min_dist| *min_dist > 0)
             .and_then(|min_dist| {
-                input.next()
+                input
+                    .next()
                     .and_then(|arg| arg.parse::<u8>().ok())
                     .filter(|max_dist| *max_dist < 6 && min_dist <= *max_dist)
-                    .map(|max_dist| {
-                        PreviousLocation::new(min_dist, max_dist)
-                    })
+                    .map(|max_dist| PreviousLocation::new(min_dist, max_dist))
             })
             .unwrap_or_else(|| {
                 println!("Wrong arguments to Knight Mode, using default configuration.");

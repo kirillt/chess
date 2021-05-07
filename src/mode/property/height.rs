@@ -1,24 +1,25 @@
-use mode::state::Empty;
 use mode::property::Property;
+use mode::state::Empty;
 
 use location::Location;
 
-use std::cmp::min;
 use ncurses::*;
+use std::cmp::min;
 
 #[derive(PartialEq)]
 pub struct Height {
-    value: u8
+    value: u8,
 }
 
 impl Property<Empty> for Height {
     fn parse(guess: char) -> Option<Box<Height>> {
-        format!("{}", guess).parse::<u8>().ok()
-            .and_then(|x| if x < 4 {
+        format!("{}", guess).parse::<u8>().ok().and_then(|x| {
+            if x < 4 {
                 Some(Box::new(Height { value: x }))
             } else {
                 None
-            })
+            }
+        })
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<Height> {
@@ -29,7 +30,7 @@ impl Property<Empty> for Height {
         };
 
         Box::new(Height {
-            value: min(3 - mirror(location.file), 3 - mirror(location.rank))
+            value: min(3 - mirror(location.file), 3 - mirror(location.rank)),
         })
     }
 
