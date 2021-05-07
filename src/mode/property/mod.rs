@@ -1,5 +1,5 @@
-use location::Location;
-use mode::state::ModeState;
+use crate::location::Location;
+use crate::mode::state::ModeState;
 
 pub trait Property<State: ModeState> {
     fn parse(guess: char) -> Option<Box<Self>>;
@@ -14,12 +14,12 @@ pub trait Property<State: ModeState> {
 }
 
 pub mod color;
-pub mod quadrant;
-pub mod height;
 pub mod column;
+pub mod height;
 pub mod knight;
+pub mod quadrant;
 
-pub use self::knight::KnightDistance;
 pub use self::column::ColumnOddness;
-pub use self::quadrant::Quadrant;
 pub use self::height::Height;
+pub use self::knight::KnightDistance;
+pub use self::quadrant::Quadrant;

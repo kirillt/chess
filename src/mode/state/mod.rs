@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
 
-use location::Location;
+use crate::location::Location;
 
 pub trait ModeState: Display {
     fn next(&self) -> Location {
@@ -19,11 +19,11 @@ impl Display for Empty {
 }
 
 impl ModeState for Empty {
-    fn tick(&mut self, _location: &Location) { }
+    fn tick(&mut self, _location: &Location) {}
 }
 
-pub mod side;
 pub mod previous;
+pub mod side;
 
-pub use self::side::SideContainer;
 pub use self::previous::PreviousLocation;
+pub use self::side::SideContainer;

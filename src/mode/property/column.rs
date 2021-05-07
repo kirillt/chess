@@ -1,39 +1,41 @@
-use mode::state::Empty;
-use mode::property::Property;
-
-use location::Location;
-
 use ncurses::*;
 
+use crate::location::Location;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
+
 #[derive(PartialEq)]
-pub enum ColumnOddness { Odd, Even }
+pub enum ColumnOddness {
+    Odd,
+    Even,
+}
 
 impl Property<Empty> for ColumnOddness {
     fn parse(guess: char) -> Option<Box<ColumnOddness>> {
         match guess {
-            'o' => Some(box ColumnOddness::Odd),
-            '1' => Some(box ColumnOddness::Odd),
-            'e' => Some(box ColumnOddness::Even),
-            '2' => Some(box ColumnOddness::Even),
+            'o' => Some(Box::new(ColumnOddness::Odd)),
+            '1' => Some(Box::new(ColumnOddness::Odd)),
+            'e' => Some(Box::new(ColumnOddness::Even)),
+            '2' => Some(Box::new(ColumnOddness::Even)),
 
-            _ => None
+            _ => None,
         }
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<ColumnOddness> {
         match (location.file + 1) % 2 {
-            0 => box ColumnOddness::Even,
-            1 => box ColumnOddness::Odd,
-            _ => panic!()
+            0 => Box::new(ColumnOddness::Even),
+            1 => Box::new(ColumnOddness::Odd),
+            _ => panic!(),
         }
     }
 
     fn print_help() {
-        printw("===================================================================\n");
-        printw("                   COLUMN ODDNESS GUESSING MODE\n");
-        printw("-------------------------------------------------------------------\n");
-        printw("Type [e] or [2] if you think column of specified position is [even]\n");
-        printw("and type [o] or [1] if you think the column is [odd].\n");
-        printw("===================================================================\n");
+        addstr("===================================================================\n");
+        addstr("                   COLUMN ODDNESS GUESSING MODE\n");
+        addstr("-------------------------------------------------------------------\n");
+        addstr("Type [e] or [2] if you think column of specified position is [even]\n");
+        addstr("and type [o] or [1] if you think the column is [odd].\n");
+        addstr("===================================================================\n");
     }
 }

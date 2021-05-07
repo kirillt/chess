@@ -1,15 +1,14 @@
-use mode::state::ModeState;
-use color::Color;
-
-use location::Location;
-
-use std::fmt::{Display, Formatter, Result};
 use std::env::Args;
+use std::fmt::{Display, Formatter, Result};
+
+use crate::color::Color;
+use crate::location::Location;
+use crate::mode::state::ModeState;
 
 pub struct SideContainer {
     pub side: Color,
     period: Option<u8>,
-    countdown: u8
+    countdown: u8,
 }
 
 impl SideContainer {
@@ -17,7 +16,7 @@ impl SideContainer {
         SideContainer {
             side: side,
             period: period,
-            countdown: period.unwrap_or(0)
+            countdown: period.unwrap_or(0),
         }
     }
 
@@ -25,10 +24,9 @@ impl SideContainer {
         if let Some(arg1) = input.next() {
             match Color::parse_str(&arg1[..]) {
                 Some(side) => {
-                    let period = input.next()
-                        .and_then(|arg2| arg2.parse::<u8>().ok());
+                    let period = input.next().and_then(|arg2| arg2.parse::<u8>().ok());
                     SideContainer::new(side, period)
-                },
+                }
                 None => {
                     let period = arg1.parse::<u8>().ok();
                     SideContainer::new(Color::Black, period)
@@ -55,7 +53,7 @@ impl ModeState for SideContainer {
                     self.side = self.side.invert();
                     self.countdown = period;
                 }
-            },
+            }
             None => {}
         }
     }
