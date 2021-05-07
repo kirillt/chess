@@ -11,10 +11,10 @@ pub enum ColumnOddness { Odd, Even }
 impl Property<Empty> for ColumnOddness {
     fn parse(guess: char) -> Option<Box<ColumnOddness>> {
         match guess {
-            'o' => Some(box ColumnOddness::Odd),
-            '1' => Some(box ColumnOddness::Odd),
-            'e' => Some(box ColumnOddness::Even),
-            '2' => Some(box ColumnOddness::Even),
+            'o' => Some(Box::new(ColumnOddness::Odd)),
+            '1' => Some(Box::new(ColumnOddness::Odd)),
+            'e' => Some(Box::new(ColumnOddness::Even)),
+            '2' => Some(Box::new(ColumnOddness::Even)),
 
             _ => None
         }
@@ -22,8 +22,8 @@ impl Property<Empty> for ColumnOddness {
 
     fn calculate(_state: &Empty, location: &Location) -> Box<ColumnOddness> {
         match (location.file + 1) % 2 {
-            0 => box ColumnOddness::Even,
-            1 => box ColumnOddness::Odd,
+            0 => Box::new(ColumnOddness::Even),
+            1 => Box::new(ColumnOddness::Odd),
             _ => panic!()
         }
     }

@@ -15,7 +15,7 @@ impl Property<Empty> for Height {
     fn parse(guess: char) -> Option<Box<Height>> {
         format!("{}", guess).parse::<u8>().ok()
             .and_then(|x| if x < 4 {
-                Some(box Height { value: x })
+                Some(Box::new(Height { value: x }))
             } else {
                 None
             })
@@ -28,9 +28,9 @@ impl Property<Empty> for Height {
             x as u8
         };
 
-        box Height {
+        Box::new(Height {
             value: min(3 - mirror(location.file), 3 - mirror(location.rank))
-        }
+        })
     }
 
     fn print_help() {

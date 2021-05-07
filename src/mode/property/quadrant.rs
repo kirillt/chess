@@ -12,10 +12,10 @@ pub enum Quadrant { TopRight, BottomRight, BottomLeft, TopLeft }
 impl Property<SideContainer> for Quadrant {
     fn parse(guess: char) -> Option<Box<Quadrant>> {
         match guess {
-            '1' => Some(box Quadrant::BottomLeft),
-            '3' => Some(box Quadrant::BottomRight),
-            '7' => Some(box Quadrant::TopLeft),
-            '9' => Some(box Quadrant::TopRight),
+            '1' => Some(Box::new(Quadrant::BottomLeft)),
+            '3' => Some(Box::new(Quadrant::BottomRight)),
+            '7' => Some(Box::new(Quadrant::TopLeft)),
+            '9' => Some(Box::new(Quadrant::TopRight)),
 
             _ => None
         }
@@ -28,11 +28,11 @@ impl Property<SideContainer> for Quadrant {
             if location.file < 4 { Quadrant::TopLeft } else { Quadrant::TopRight }
         };
 
-        box if state.side == Color::Black {
+        Box::new(if state.side == Color::Black {
             Quadrant::invert(quadrant)
         } else {
             quadrant
-        }
+        })
     }
 
     fn print_help() {

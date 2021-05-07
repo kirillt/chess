@@ -37,15 +37,15 @@ impl KnightDistance {
 impl Property<PreviousLocation> for KnightDistance {
     fn parse(guess: char) -> Option<Box<KnightDistance>> {
         format!("{}", guess).parse::<u8>().ok()
-            .map(|x| box KnightDistance { penultimate: None, value: x })
+            .map(|x| Box::new(KnightDistance { penultimate: None, value: x }))
     }
 
     fn calculate(previous: &PreviousLocation, location: &Location) -> Box<KnightDistance> {
         let (i,j) = KnightDistance::penultimate(&previous.location, location);
-        box KnightDistance {
+        Box::new(KnightDistance {
             penultimate: Some(Location { file: i as u8, rank: j as u8 }),
             value: KnightDistance::distance(&previous.location, location)
-        }
+        })
     }
 
     fn details(&self) -> String {

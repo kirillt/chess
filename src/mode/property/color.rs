@@ -9,17 +9,17 @@ use ncurses::*;
 impl Property<Empty> for Color {
     fn parse(guess: char) -> Option<Box<Color>> {
         match guess {
-            'w' => Some(box Color::White),
-            '4' => Some(box Color::White),
-            'b' => Some(box Color::Black),
-            '6' => Some(box Color::Black),
+            'w' => Some(Box::new(Color::White)),
+            '4' => Some(Box::new(Color::White)),
+            'b' => Some(Box::new(Color::Black)),
+            '6' => Some(Box::new(Color::Black)),
 
             _ => None
         }
     }
 
     fn calculate(_state: &Empty, location: &Location) -> Box<Color> {
-        box if location.rank % 2 == location.file % 2 { Color::Black } else { Color::White }
+        Box::new(if location.rank % 2 == location.file % 2 { Color::Black } else { Color::White })
     }
 
     fn print_help() {
