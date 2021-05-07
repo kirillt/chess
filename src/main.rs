@@ -1,4 +1,3 @@
-#![feature(box_syntax, box_patterns, duration_as_u128)]
 #[macro_use(lazy_static)]
 extern crate lazy_static;
 extern crate ncurses;
