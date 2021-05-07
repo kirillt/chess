@@ -1,7 +1,7 @@
-use color::Color;
-use mode::state::ModeState;
+use crate::color::Color;
+use crate::mode::state::ModeState;
 
-use location::Location;
+use crate::location::Location;
 
 use std::env::Args;
 use std::fmt::{Display, Formatter, Result};

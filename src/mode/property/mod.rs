@@ -1,5 +1,5 @@
-use location::Location;
-use mode::state::ModeState;
+use crate::location::Location;
+use crate::mode::state::ModeState;
 
 pub trait Property<State: ModeState> {
     fn parse(guess: char) -> Option<Box<Self>>;

@@ -1,7 +1,7 @@
-use mode::property::KnightDistance;
-use mode::state::ModeState;
+use crate::mode::property::KnightDistance;
+use crate::mode::state::ModeState;
 
-use location::Location;
+use crate::location::Location;
 
 use std::env::Args;
 use std::fmt::{Display, Formatter, Result};

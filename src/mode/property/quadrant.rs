@@ -1,8 +1,8 @@
-use mode::property::Property;
-use mode::state::side::SideContainer;
+use crate::mode::property::Property;
+use crate::mode::state::side::SideContainer;
 
-use color::Color;
-use location::Location;
+use crate::color::Color;
+use crate::location::Location;
 
 use ncurses::*;
 

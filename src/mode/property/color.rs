@@ -1,8 +1,8 @@
-use mode::property::Property;
-use mode::state::Empty;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
 
-use color::Color;
-use location::Location;
+use crate::color::Color;
+use crate::location::Location;
 
 use ncurses::*;
 

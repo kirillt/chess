@@ -4,12 +4,12 @@ extern crate ncurses;
 extern crate rand;
 
 mod mode;
-use mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
+use crate::mode::state::{Empty, ModeState, PreviousLocation, SideContainer};
 
-use mode::property::{ColumnOddness, Height, KnightDistance, Property, Quadrant};
+use crate::mode::property::{ColumnOddness, Height, KnightDistance, Property, Quadrant};
 
 mod color;
-use color::Color;
+use crate::color::Color;
 
 mod location;
 

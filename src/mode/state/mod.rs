@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
 
-use location::Location;
+use crate::location::Location;
 
 pub trait ModeState: Display {
     fn next(&self) -> Location {

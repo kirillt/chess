@@ -1,7 +1,7 @@
-use mode::property::Property;
-use mode::state::PreviousLocation;
+use crate::mode::property::Property;
+use crate::mode::state::PreviousLocation;
 
-use location::Location;
+use crate::location::Location;
 
 use ncurses::*;
 

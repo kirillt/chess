@@ -1,7 +1,7 @@
-use mode::property::Property;
-use mode::state::Empty;
+use crate::mode::property::Property;
+use crate::mode::state::Empty;
 
-use location::Location;
+use crate::location::Location;
 
 use ncurses::*;
 use std::cmp::min;
